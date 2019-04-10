@@ -1,14 +1,5 @@
 clc;clear all;close all;
 
-% % new
-% % folder='../Data na bakalarku/A2780';
-% % volume_tresh=50;
-% % tresh=0.1;
-% % max_tresh=4;
-% % tresh2=0.4;
-% % hole_min=100;
-
-%old
 % folder='../Data na bakalarku/A2780';
 % volume_tresh=100;
 % tresh=0.07;
@@ -27,7 +18,7 @@ clc;clear all;close all;
 % hole_min=100;
 
 
-% 
+%
 % folder='../Data na bakalarku/PC-3';
 % volume_tresh=150;
 % tresh=0.07;
@@ -35,21 +26,13 @@ clc;clear all;close all;
 % tresh2=0.4;
 % hole_min=200;
 
-% % new
-% % folder='../Data na bakalarku/PNT1A';
-% % volume_tresh=50;
-% % tresh=-0.2;
-% % max_tresh=2;
-% % tresh2=0.2;
-% % hole_min=200;
 
-% old
-folder='../Data na bakalarku/PNT1A';
-volume_tresh=100;
-tresh=0.07;
-max_tresh=2;
-tresh2=0.4;
-hole_min=200;
+% folder='../Data na bakalarku/PNT1A';
+% volume_tresh=100;
+% tresh=0.07;
+% max_tresh=2;
+% tresh2=0.4;
+% hole_min=200;
 
 
 
