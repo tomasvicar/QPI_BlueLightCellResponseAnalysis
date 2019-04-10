@@ -2,11 +2,13 @@ clc;clear all;close all;
 
 
 folder='../Data na bakalarku/A2780';
-volume_tresh=50;
-tresh=0.1;
-max_tresh=4;
+volume_tresh=100;
+tresh=0.07;
+max_tresh=2;
 tresh2=0.4;
 hole_min=100;
+
+
 
 
 % folder='../Data na bakalarku/G361';
@@ -17,7 +19,7 @@ hole_min=100;
 % hole_min=100;
 
 
-% 
+%
 % folder='../Data na bakalarku/PC-3';
 % volume_tresh=150;
 % tresh=0.07;
@@ -27,19 +29,21 @@ hole_min=100;
 
 
 % folder='../Data na bakalarku/PNT1A';
-% volume_tresh=50;
-% tresh=-0.2;
+% volume_tresh=100;
+% tresh=0.07;
 % max_tresh=2;
-% tresh2=0.2;
+% tresh2=0.4;
 % hole_min=200;
 
-% % folder='../Data na bakalarku/Imunitni system';
-% % volume_tresh=100;
-% % tresh=0.07;
-% % max_tresh=1.2;
-% % tresh2=0.4;
-% % hole_min=200;
 
+
+
+% folder='../Data na bakalarku/Imunitni system';
+% volume_tresh=100;
+% tresh=0.07;
+% max_tresh=1.2;
+% tresh2=0.4;
+% hole_min=200;
 
 listing={};
 
@@ -62,12 +66,12 @@ for s=listing
     name1=name0(1:pom(end));
     name2=name0(1:pom(end));
     name1=[name1 'seg_ukazka' name0(end-12:end)];
-    name2=[name2 'segmentace' name0(end-12:end)];
+    name2=[name2 'segmentace' name0(end-12:end-5) '.mat'];
     
     info=imfinfo(s{1});
     clear b
     fprintf(1,'%s\n\n',repmat('.',1,length(info)));
-    for k=1:length(info)
+    parfor k=1:length(info)
         
 %         try
         I=imread(name0,k);
@@ -75,15 +79,15 @@ for s=listing
 %         catch
 %             error(num2str(k))
 %         end
-        imshow(I,[0 2.5])
-        hold on;
-        visboundaries(b(:,:,k),'Color','r','LineWidth',0.1)
-        hold off
-        title(num2str(k))
-        drawnow;
-        cdata = print('-RGBImage');
-        
-        tiff_stack_uint8_color_jpg(name1,cdata,k)
+%         imshow(I,[0 2.5])
+%         hold on;
+%         visboundaries(b(:,:,k),'Color','r','LineWidth',0.1)
+%         hold off
+%         title(num2str(k))
+%         drawnow;
+%         cdata = print('-RGBImage');
+%         
+%         tiff_stack_uint8_color_jpg(name1,cdata,k)
         fprintf(1,'\b|\n');
     end
     save(name2,'b');
