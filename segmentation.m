@@ -1,19 +1,52 @@
 clc;clear all;close all;
 
-slozka='PNT1A';
-volume_tresh=100;
-prah=0.07;
-max_prah=2;
-prah2=0.4;
-dira_min=200;
+
+folder='../Data na bakalarku/A2780';
+volume_tresh=50;
+tresh=0.1;
+max_tresh=4;
+tresh2=0.4;
+hole_min=100;
+
+
+% folder='../Data na bakalarku/G361';
+% volume_tresh=150;
+% tresh=0.07;
+% max_tresh=2;
+% tresh2=0.4;
+% hole_min=100;
+
+
+% 
+% folder='../Data na bakalarku/PC-3';
+% volume_tresh=150;
+% tresh=0.07;
+% max_tresh=2;
+% tresh2=0.4;
+% hole_min=200;
+
+
+% folder='../Data na bakalarku/PNT1A';
+% volume_tresh=50;
+% tresh=-0.2;
+% max_tresh=2;
+% tresh2=0.2;
+% hole_min=200;
+
+% % folder='../Data na bakalarku/Imunitni system';
+% % volume_tresh=100;
+% % tresh=0.07;
+% % max_tresh=1.2;
+% % tresh2=0.4;
+% % hole_min=200;
 
 
 listing={};
 
-listing1=dir(slozka);
+listing1=dir(folder);
 listing1={listing1(3:end).name};
 for ss=listing1
-    pom=subdir([slozka '/' ss{1} '/Video/Compensated phase-pgpum2*.tiff']);
+    pom=subdir([folder '/' ss{1} '/Video/Compensated phase-pgpum2*.tiff']);
     listing=[listing {pom(:).name}];
     
 end
@@ -23,36 +56,36 @@ end
 
 for s=listing
     
-    nazev0=s{1};
-    nazev0
-    pom=strfind(nazev0,'\');
-    nazev1=nazev0(1:pom(end));
-    nazev2=nazev0(1:pom(end));
-    nazev1=[nazev1 'seg_ukazka' nazev0(end-12:end)];
-    nazev2=[nazev2 'segmentace' nazev0(end-12:end)];
+    name0=s{1};
+    name0
+    pom=strfind(name0,'\');
+    name1=name0(1:pom(end));
+    name2=name0(1:pom(end));
+    name1=[name1 'seg_ukazka' name0(end-12:end)];
+    name2=[name2 'segmentace' name0(end-12:end)];
     
     info=imfinfo(s{1});
     clear b
     fprintf(1,'%s\n\n',repmat('.',1,length(info)));
-    parfor k=1:length(info)
+    for k=1:length(info)
         
 %         try
-        I=imread(nazev0,k);
-        b(:,:,k)=qpi_it_egt(I,volume_tresh,prah,prah2,max_prah,dira_min);
+        I=imread(name0,k);
+        b(:,:,k)=qpi_it_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min);
 %         catch
 %             error(num2str(k))
 %         end
-%         imshow(I,[0 2.5])
-%         hold on;
-%         visboundaries(b(:,:,k),'Color','r','LineWidth',0.1)
-%         hold off
-%         title(num2str(k))
-%         drawnow;
-%         cdata = print('-RGBImage');
+        imshow(I,[0 2.5])
+        hold on;
+        visboundaries(b(:,:,k),'Color','r','LineWidth',0.1)
+        hold off
+        title(num2str(k))
+        drawnow;
+        cdata = print('-RGBImage');
         
-%         tiff_stack_uint8_color_jpg(nazev1,cdata,k)
+        tiff_stack_uint8_color_jpg(name1,cdata,k)
         fprintf(1,'\b|\n');
     end
-    save(nazev2,'b');
+    save(name2,'b');
     
 end

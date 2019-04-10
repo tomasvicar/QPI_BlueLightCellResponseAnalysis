@@ -33,7 +33,7 @@ b=mass_filt(b,a,volume_tresh);
 
 
 % a=imerode(a,strel('sphere',1));
-a=imopen(a,strel('sphere',1));
+% a=imopen(a,strel('sphere',3));
 
 res=b;
 res_old=true(size(b));
