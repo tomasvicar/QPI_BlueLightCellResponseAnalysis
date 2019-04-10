@@ -1,9 +1,18 @@
-% clc;clear all;close all;
-%based on Loewke - automted cell segmentation for quntitative phase microscopy
+function [segm]=qpi_it_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min)
+%based on Loewke - automted cell segmentation for quntitative phase
+%microscopy  and combined with EGT segmentation
 
-function [segm]=qpi_it_egt(I,volume_tresh,prah,prah2,max_prah,dira_min)
 
-% a=imread('Compensated phase-pgpum2-001-001.tiff',1);
+% tresh - foreground treshhold (aditional to EGT)
+% tresh2 -  foreground treshhold (aditional to EGT)
+%BW = (egt and I>tresh)|I>tresh2
+%max_tresh - dividing lines above this treshold will not be created
+%hole_min - smaler holes will be removed
+
+
+
+
+
 a=I;
 a=medfilt2(a,[3 3]);
 a=imgaussfilt(a,0.2);
@@ -11,38 +20,29 @@ a=imgaussfilt(a,0.2);
 
 
 
-% a=mat2gray(a,)
-
-% volume_tresh=100;
-% max_prah=0.9;
-% prah=0.03;
-
-% b=a>prah;
-
-
-% apom=uint8(mat2gray(a,[0 2.5])*255);
-% [~,cc]=detectMSERFeatures(apom,'ThresholdDelta',mser_delta,'MaxAreaVariation',mser_variability,'RegionAreaRange',[100 150000]);
-% pom=false(size(a));
-% pom(cat(1,cc.PixelIdxList{:}))=1;
 
 
 pom = EGT_Segmentation(a);
 
 
-b=(pom.*(a>prah))|a>prah2;
+b=(pom.*(a>tresh))|a>tresh2;
 
-b=~bwareafilt(~b,[dira_min,Inf]);
+b=~bwareafilt(~b,[hole_min,Inf]);
 
 b=mass_filt(b,a,volume_tresh);
 
-vys=b;
-vys_old=true(size(b));
-while sum(sum(vys_old==vys))~=numel(vys)
-vys_old=vys;
 
-b=vys;
+% a=imerode(a,strel('sphere',1));
+a=imopen(a,strel('sphere',1));
 
-vys=false(size(b));
+res=b;
+res_old=true(size(b));
+while sum(sum(res_old==res))~=numel(res)
+res_old=res;
+
+b=res;
+
+res=false(size(b));
 
 l=bwlabel(b);
 
@@ -55,7 +55,7 @@ for k=1:ml
     bb=bb(1).BoundingBox;
     bb=floor(bb);
     bb(bb==0)=1;
-%     bb(bb>600)=600;
+
     if bb(2)+bb(4)>size(l,1)
         bb(4)=bb(4)-(bb(2)+bb(4)-size(l,1));
     end
@@ -66,33 +66,22 @@ for k=1:ml
     grey_blob=grey_blob(bb(2):bb(2)+bb(4),bb(1):bb(1)+bb(3));
     
     bw=grey_blob>0;
-    for tresh=prah:0.05:max_prah
-        bw_blob=grey_blob>tresh;
+    for t=tresh:0.05:max_tresh
+        bw_blob=grey_blob>t;
         
-%         bw_blob=imerode(bw_blob,strel('disk',3));
-%         pom=bwdist(bw_blob);
-%         pom=imhmin(pom,5);
-%         bw_blob=bw_blob.*(watershed(pom)>0);
-        
-%         figure(1)
-%         imshow(bw_blob);
-%         drawnow;
+
         ll=bwlabel(bw_blob);
         mll=max(ll(:));
-        smazat=[];
+        
         for kk=1:mll
             cc=ll==kk;
             
             volume=sum(sum(grey_blob.*cc));
             if volume<volume_tresh
                 bw_blob(cc)=0;
-%                 ccc=sub2ind(size(ll), size(ll))
-%                 smazat=[smazat ;find(cc)];
+
             end
         end
-%         if ~isempty(smazat)
-%             bw_blob(smazat)=0;
-%         end
         pom=bwlabel(bw_blob);
         num_css=max(pom(:));
         if num_css>1
@@ -108,18 +97,12 @@ for k=1:ml
         cut_lines=basins==0;
         bw=bw&~cut_lines;
     end
-    pom=false(size(vys));
+    pom=false(size(res));
     pom(bb(2):bb(2)+bb(4),bb(1):bb(1)+bb(3))=bw;
-    vys(pom)=1;
+    res(pom)=1;
 end
 
-
-% figure
-% imshow(a,[]);
-% hold on
-% visboundaries(vys)
-
-segm=vys;
+segm=res;
 
 
 end
