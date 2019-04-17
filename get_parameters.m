@@ -1,12 +1,12 @@
 clc;clear all;close all;
 
-listing=subdir(['*segmentace*.mat']);
+listing=subdir(['../Data na bakalarku/*segmentace*.mat']);
 listing={listing(:).name};
 poc=0;
 % listing(1:80)=[]
 for s=listing
     poc=poc+1;
-    if poc>6
+%     if poc>6
     disp([num2str(poc) '/' num2str(length(listing))])
     nazev1=s{1}
     nazev2=nazev1;
@@ -15,7 +15,7 @@ for s=listing
     nazev3=nazev1;
     nazev3=strrep(nazev3,'segmentace','sloucene07');
     nazev4=nazev1;
-    nazev4=strrep(nazev4,'segmentace','parametry07');
+    nazev4=strrep(nazev4,'segmentace','parametry08');
     
     
 %     load(nazev1);
@@ -66,21 +66,43 @@ for s=listing
     x=nan(velikost);
     y=nan(velikost);
     plocha=nan(velikost);
+    densita=nan(velikost);
+    CDS=nan(velikost);
     for k=1:size(ll,3)
         l=ll(:,:,k);
+        if k>1
+            I_old=I;
+        else
+             I_old=imread(nazev2,k);
+        end
         I=imread(nazev2,k);
+        
+        
         stats = regionprops(l,I,'WeightedCentroid','Area','Perimeter','MeanIntensity');
         cent=cat(1,stats.WeightedCentroid);
         x(k,1:length(cent(:,1)))=cent(:,1);
         y(k,1:length(cent(:,1)))=cent(:,2);
-        plocha(k,1:length(cent(:,1)))=cat(1,stats.Area);
-        hmota(k,1:length(cent(:,1)))=cat(1,stats.MeanIntensity).*cat(1,stats.Area);
+        plocha(k,1:length(cent(:,1)))=cat(1,stats.Area)/2.5464;
+        densita(k,1:length(cent(:,1)))=cat(1,stats.MeanIntensity);
+        hmota(k,1:length(cent(:,1)))=cat(1,stats.MeanIntensity).*cat(1,stats.Area)/2.5464;
         cirkularita(k,1:length(cent(:,1)))=4*pi*cat(1,stats.Area)./(cat(1,stats.Perimeter).^2);
         
+        ml=unique(l(:))';
+        ml(ml==0)=[];
+        for kk=ml
+            if sum(sum(l==kk))~=0
+                CDS(k,kk)=sqrt(sum(sum((I_old(l==kk)-I(l==kk)).^2)));
+            else
+                CDS(k,kk)=nan;
+            end
+        end
+        
+        
     end
+    CDS=CDS./plocha;
     
     
-    save(nazev4,'hmota','cirkularita','plocha','x','y');
-    end
+    save(nazev4,'hmota','cirkularita','plocha','x','y','CDS','densita');
+%     end
     
 end

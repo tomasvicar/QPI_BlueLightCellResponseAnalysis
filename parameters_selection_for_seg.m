@@ -9,7 +9,7 @@ clc;clear all;close all;
 
 
 
-
+% 
 % folder='../Data na bakalarku/G361';
 % volume_tresh=150;
 % tresh=0.07;
@@ -26,13 +26,13 @@ clc;clear all;close all;
 % tresh2=0.4;
 % hole_min=200;
 
-
-% folder='../Data na bakalarku/PNT1A';
-% volume_tresh=100;
-% tresh=0.07;
-% max_tresh=2;
-% tresh2=0.4;
-% hole_min=200;
+% 
+folder='../Data na bakalarku/PNT1A';
+volume_tresh=100;
+tresh=0.07;
+max_tresh=2;
+tresh2=0.4;
+hole_min=200;
 
 
 
@@ -73,6 +73,10 @@ qpi=double(qpi);
 % imshow(mont,[])
 
 for k=1:size(qpi,3)
+    qq=listing{k};
+    qq=split(qq,'\');
+    qq=qq{3};
+    
     q=qpi(:,:,k);
     b=qpi_it_egt(q,volume_tresh,tresh,tresh2,max_tresh,hole_min);
     % b=qpi_it_egt_old(mont,volume_tresh,tresh,tresh2,max_tresh,hole_min);
@@ -81,8 +85,14 @@ for k=1:size(qpi,3)
     imshow(q,[-0.1 2.5]);
     hold on;
     visboundaries(b,'Color','r','LineWidth',0.1)
+    title(listing{k})
     drawnow;
+    print_png_eps_svg(['../vys/ukazky_segmentaci/' qq num2str(k)])
+    
 end
 
 % imshow(imerode(mont,strel('sphere',2)),[]);
 % imshow(imerode(mont,strel('disk',2)),[]);
+
+
+

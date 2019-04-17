@@ -1,12 +1,12 @@
 clc;clear all;close all;
 
-listing=subdir(['*segmentace*.mat']);
+listing=subdir(['../Data na bakalarku/*segmentace*.mat']);
 listing={listing(:).name};
 poc=0;
 % listing(1:80)=[]
 for s=listing
     poc=poc+1;
-    if poc>70
+    %     if poc>70
     disp([num2str(poc) '/' num2str(length(listing))])
     nazev1=s{1}
     nazev2=nazev1;
@@ -19,7 +19,7 @@ for s=listing
     
     
     load(nazev1);
-%     clear ll
+    %     clear ll
     bb_old=b(:,:,1);
     bb_old = imclearborder(bb_old);
     l_old=bwlabel(bb_old);
@@ -56,27 +56,27 @@ for s=listing
         l_old=vys;
     end
     save(nazev3,'ll');
-%     velikost=[size(ll,3) max(ll(:))];
-%     hmota=nan(velikost);
-%     cirkularita=nan(velikost);
-%     x=nan(velikost);
-%     y=nan(velikost);
-%     plocha=nan(velikost);
-%     for k=1:size(ll,3)
-%         l=ll(:,:,k);
-%         I=imread(nazev2,k);
-%         stats = regionprops(l,I,'WeightedCentroid','Area','Perimeter','MeanIntensity');
-%         cent=cat(1,stats.WeightedCentroid);
-%         x(k,1:length(cent(:,1)))=cent(:,1);
-%         y(k,1:length(cent(:,1)))=cent(:,2);
-%         plocha(k,1:length(cent(:,1)))=cat(1,stats.Area);
-%         hmota(k,1:length(cent(:,1)))=cat(1,stats.MeanIntensity).*cat(1,stats.Area);
-%         cirkularita(k,1:length(cent(:,1)))=4*pi*cat(1,stats.Area)./(cat(1,stats.Perimeter).^2);
-%         
-%     end
-%     
-%     
-%     save(nazev4,'hmota','cirkularita','plocha','x','y');
-    end
+    %     velikost=[size(ll,3) max(ll(:))];
+    %     hmota=nan(velikost);
+    %     cirkularita=nan(velikost);
+    %     x=nan(velikost);
+    %     y=nan(velikost);
+    %     plocha=nan(velikost);
+    %     for k=1:size(ll,3)
+    %         l=ll(:,:,k);
+    %         I=imread(nazev2,k);
+    %         stats = regionprops(l,I,'WeightedCentroid','Area','Perimeter','MeanIntensity');
+    %         cent=cat(1,stats.WeightedCentroid);
+    %         x(k,1:length(cent(:,1)))=cent(:,1);
+    %         y(k,1:length(cent(:,1)))=cent(:,2);
+    %         plocha(k,1:length(cent(:,1)))=cat(1,stats.Area);
+    %         hmota(k,1:length(cent(:,1)))=cat(1,stats.MeanIntensity).*cat(1,stats.Area);
+    %         cirkularita(k,1:length(cent(:,1)))=4*pi*cat(1,stats.Area)./(cat(1,stats.Perimeter).^2);
+    %
+    %     end
+    %
+    %
+    %     save(nazev4,'hmota','cirkularita','plocha','x','y');
+    %     end
     
 end

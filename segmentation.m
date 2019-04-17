@@ -1,16 +1,16 @@
 clc;clear all;close all;
 
 
-folder='../Data na bakalarku/A2780';
-volume_tresh=100;
-tresh=0.07;
-max_tresh=2;
-tresh2=0.4;
-hole_min=100;
+% folder='../Data na bakalarku/A2780';
+% volume_tresh=100;
+% tresh=0.07;
+% max_tresh=2;
+% tresh2=0.4;
+% hole_min=100;
 
 
 
-
+% 
 % folder='../Data na bakalarku/G361';
 % volume_tresh=150;
 % tresh=0.07;
@@ -34,7 +34,7 @@ hole_min=100;
 % max_tresh=2;
 % tresh2=0.4;
 % hole_min=200;
-
+% 
 
 
 
