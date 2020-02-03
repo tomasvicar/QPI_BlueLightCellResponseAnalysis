@@ -50,7 +50,7 @@ listing={};
 
 listing1=dir(folder);
 listing1={listing1(3:end).name};
-listing1=listing1(4);%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%!!!!!!!
+% listing1=listing1(4);%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%!!!!!!!
 for ss=listing1
     pom=subdir([folder '/' ss{1} '/Video/Compensated phase-pgpum2*.tiff']);
     listing=[listing {pom(:).name}];

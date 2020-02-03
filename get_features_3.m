@@ -2,7 +2,8 @@ clc;clear all;close all;
 
 addpath('utils')
 
-listing=subdir(['../Data na bakalarku/*segmentace*.mat']);
+listing=subdir(['../Data na bakalarku/G361/G361_30mj,1000ms,3procentaFITC_Marek/Video/segmentace*.mat']);
+% listing=subdir(['../Data na bakalarku/*segmentace*.mat']);
 listing={listing(:).name};
 poc=0;
 % listing(1:80)=[]
