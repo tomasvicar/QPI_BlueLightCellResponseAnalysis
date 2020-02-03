@@ -1,4 +1,4 @@
-function [segm]=qpi_it_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min)
+function [segm]=qpi_iterative_segmenation_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min)
 %based on Loewke - automted cell segmentation for quntitative phase
 %microscopy  and combined with EGT segmentation
 

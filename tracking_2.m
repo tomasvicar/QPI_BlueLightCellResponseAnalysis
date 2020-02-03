@@ -1,5 +1,7 @@
 clc;clear all;close all;
 
+clc;clear all;close all;
+
 listing=subdir(['../Data na bakalarku/*segmentace*.mat']);
 listing={listing(:).name};
 poc=0;

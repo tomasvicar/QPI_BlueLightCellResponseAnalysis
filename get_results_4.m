@@ -1,5 +1,7 @@
 clc;clear all;close all;
 
+addpath('utils')
+
 slozky={'../Data na bakalarku/A2780','../Data na bakalarku/G361','../Data na bakalarku/PC-3','../Data na bakalarku/PNT1A'};
 
 % CCC={};

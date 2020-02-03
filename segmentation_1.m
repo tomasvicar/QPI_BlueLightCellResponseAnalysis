@@ -1,5 +1,6 @@
 clc;clear all;close all;
 
+addpath('utils')
 
 % folder='../Data na bakalarku/A2780';
 % volume_tresh=100;
@@ -10,13 +11,13 @@ clc;clear all;close all;
 
 
 
-% 
-% folder='../Data na bakalarku/G361';
-% volume_tresh=150;
-% tresh=0.07;
-% max_tresh=2;
-% tresh2=0.4;
-% hole_min=100;
+
+folder='../Data na bakalarku/G361';
+volume_tresh=150;
+tresh=0.07;
+max_tresh=2;
+tresh2=0.4;
+hole_min=100;
 
 
 %
@@ -49,6 +50,7 @@ listing={};
 
 listing1=dir(folder);
 listing1={listing1(3:end).name};
+listing1=listing1(4);%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%!!!!!!!
 for ss=listing1
     pom=subdir([folder '/' ss{1} '/Video/Compensated phase-pgpum2*.tiff']);
     listing=[listing {pom(:).name}];
@@ -75,7 +77,7 @@ for s=listing
         
 %         try
         I=imread(name0,k);
-        b(:,:,k)=qpi_it_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min);
+        b(:,:,k)=qpi_iterative_segmenation_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min);
 %         catch
 %             error(num2str(k))
 %         end
