@@ -346,9 +346,6 @@ for s=slozky
     legend(nazevy_treat_tmp,'Location','northoutside')
     ylabel('Circurarity')
     xlabel('t (h)')
-    
-%     ax=gca;
-    
     print_png_eps_svg(['../vys/casove/' ss '_c'])
     figure(2);
 %     title('rychlost')
