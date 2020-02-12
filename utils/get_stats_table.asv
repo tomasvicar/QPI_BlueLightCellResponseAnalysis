@@ -1,0 +1,112 @@
+function stats = get_stats_table(data_cell,names)
+
+
+dataa=[];
+names_vec={};
+
+for k=1:length(data_cell)
+    
+    
+    tmp=data_cell{k};
+
+    
+    tmp=tmp(:);
+    dataa=[dataa;tmp];
+    names_vec=[names_vec ; repmat({names{k}}, length(tmp), 1)];
+    
+    
+    names2{k}=['x' names{k}];
+    
+    names2{k}=strrep(names2{k},'-','_');
+    
+    
+    
+    means(k)=mean(tmp);
+    stds(k)=std(tmp);
+    q1(k)=quantile(tmp,0.25);
+    q3(k)=quantile(tmp,0.75);
+    med(k)=median(tmp);
+    count(k)=numel(tmp);
+    
+    
+    try
+        [h,p] = lillietest(tmp);%small -> not normal
+    catch
+        disp('lili not working')
+        p=NaN;
+    end
+    
+    
+    lili_norm(k)=p;
+    
+    
+
+end
+
+
+
+[p,t,stats] = anova1(dataa,names_vec,'off');
+[c,m,h,nms] = multcompare(stats,'Display','off');
+c(:,3:5)=[];
+c1=squareform(c(:,3));
+
+
+[p,t,stats] =kruskalwallis(dataa,names_vec,'off');
+[c,m,h,nms] = multcompare(stats,'Display','off');
+c(:,3:5)=[];
+c2=squareform(c(:,3));
+
+
+
+names_vec_3class=names_vec;
+names_vec_3class=strrep(names_vec_3class,names{2},[names{2} '+' names{3}]);
+names_vec_3class=strrep(names_vec_3class,names{3},[names{2} '+' names{3}]);
+names_vec_3class=strrep(names_vec_3class,names{4},[names{4} '+' names{5}]);
+names_vec_3class=strrep(names_vec_3class,names{5},[names{4} '+' names{5}]);
+
+names22={names{1},[names{2},names{3}],[names{4},names{5}]};
+
+
+
+
+[p,t,stats] = anova1(dataa,names_vec_3class,'off');
+[c,m,h,nms] = multcompare(stats,'Display','off');
+c(:,3:5)=[];
+c3=squareform(c(:,3));
+
+
+[p,t,stats] =kruskalwallis(dataa,names_vec_3class,'off');
+[c,m,h,nms] = multcompare(stats,'Display','off');
+c(:,3:5)=[];
+c4=squareform(c(:,3));
+
+
+
+cc1=[c1 c2];
+cc2=[c3 c4];
+
+blabla1={};
+for k=1:size(c1,1)
+    blabla1=[blabla1,['anova_' names2]];
+end
+
+
+blabla1=[repmat({'anova'},[1,size(c1,1)]),repmat({'kruskal'},[1,size(c1,1)])];
+blabla2={'anova_mj_3class','kruskal_mj_3class'};
+
+stat=array2table(cc1,'RowNames',blabla1,'VariableNames',names2);
+stat=[stat;array2table(cc2,'RowNames',blabla2,'VariableNames',names22)];
+
+
+stat=[stat;array2table(med,'RowNames',{'med'},'VariableNames',names2)];
+stat=[stat;array2table(means,'RowNames',{'mean'},'VariableNames',names2)];
+stat=[stat;array2table(odchylka,'RowNames',{'std'},'VariableNames',names2)];
+stat=[stat;array2table(q1,'RowNames',{'q1'},'VariableNames',names2)];
+stat=[stat;array2table(q3,'RowNames',{'q3'},'VariableNames',names2)];
+stat=[stat;array2table(count,'RowNames',{'count'},'VariableNames',names2)];
+stat=[stat;array2table(lili_norm,'RowNames',{'liliNormalitaVelkeJeOk'},'VariableNames',names2)];
+
+drawnow;
+
+
+
