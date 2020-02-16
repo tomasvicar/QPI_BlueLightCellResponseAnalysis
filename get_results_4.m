@@ -3,18 +3,16 @@ addpath('utils')
 addpath('plotSpread')
 
 
+data_folder='../data';
+
+folders=dir(data_folder);
+folders={folders(3:end).name};
 
 
-
-slozky={'../Data na bakalarku/A2780','../Data na bakalarku/G361','../Data na bakalarku/PC-3','../Data na bakalarku/PNT1A'};
-
-% slozky={'../Data na bakalarku/G361'};
-
-
-mkdir('../vys/tables');
+mkdir('../res/tables');
 
 s_num=0;
-for s=slozky
+for s=folders
     s_num=s_num+1;
     
 %     if s_num<2
@@ -23,7 +21,7 @@ for s=slozky
     
     listing=dir(s{1});
     
-    slozky2={listing(3:end).name};
+    folders2={listing(3:end).name};
     
     CC={};
     VV={};
@@ -70,12 +68,12 @@ for s=slozky
     s_DD={}; 
     s_AA={};
     
-    nazevy_treat={};
+    names_treat={};
     
     
-    for ss=slozky2
+    for ss=folders2
         
-        listing=subdir([s{1} '/' ss{1} '/*parametry08*.mat']);
+        listing=subdir([s{1} '/' ss{1} '/*features*.mat']);
         
         listing={listing(:).name};
         
@@ -91,38 +89,38 @@ for s=slozky
         for sss=listing
             nazev=sss{1};
             load(nazev)
-            %             cirkularita(cirkularita==Inf)=nan;
-            cirkularita(cirkularita>1)=nan;
+            %             cirkularity(cirkularity==Inf)=nan;
+            cirkularity(cirkularity>1)=nan;
             if poprve==0
-                velikost_min=min([size(C,1) size(cirkularita,1)]);
-                C=C(1:velikost_min,:);
-                cirkularita=cirkularita(1:velikost_min,:);
-                X=X(1:velikost_min,:);
-                Y=Y(1:velikost_min,:);
-                x=x(1:velikost_min,:);
-                y=y(1:velikost_min,:);
-                M=M(1:velikost_min,:);
-                P=P(1:velikost_min,:);
-                D=D(1:velikost_min,:);
-                A=A(1:velikost_min,:);
-                plocha=plocha(1:velikost_min,:);
-                cds=cds(1:velikost_min,:);
-                hmota=hmota(1:velikost_min,:);
-                densita=densita(1:velikost_min,:);
-                CDS=CDS(1:velikost_min,:);
+                size_min=min([size(C,1) size(cirkularity,1)]);
+                C=C(1:size_min,:);
+                cirkularity=cirkularity(1:size_min,:);
+                X=X(1:size_min,:);
+                Y=Y(1:size_min,:);
+                x=x(1:size_min,:);
+                y=y(1:size_min,:);
+                M=M(1:size_min,:);
+                P=P(1:size_min,:);
+                D=D(1:size_min,:);
+                A=A(1:size_min,:);
+                area=area(1:size_min,:);
+                cds=cds(1:size_min,:);
+                mass=mass(1:size_min,:);
+                density=density(1:size_min,:);
+                CDS=CDS(1:size_min,:);
             end
             poprve=0;
             
-            plocha(plocha==0)=nan;
+            area(area==0)=nan;
             
-            C=[C cirkularita];
+            C=[C cirkularity];
             %             V=[V sqrt(diff(x,[],1).^2+diff(y,[],1).^2)];
             X=[X x];
             Y=[Y y];
-            M=[M hmota];
-            P=[P ~isnan(hmota)];
-            D=[D densita];
-            A=[A plocha];
+            M=[M mass];
+            P=[P ~isnan(mass)];
+            D=[D density];
+            A=[A area];
             cds=[cds CDS];
             
         end
@@ -131,7 +129,7 @@ for s=slozky
         
         
         V=sqrt(diff(X,[],1).^2+diff(Y,[],1).^2)/3/1.6;
-        nazevy_treat=[nazevy_treat  [ss{1}]];
+        names_treat=[names_treat  [ss{1}]];
         
         
         remove=A<50;
@@ -408,17 +406,17 @@ for s=slozky
     figure(7);
     hold on
     colors={};
-    for k=1:length(nazevy_treat)
-        nazvy_treat=nazevy_treat;
-        if contains(nazvy_treat{k},'30mj')&&contains(nazvy_treat{k},'500ms')
+    for k=1:length(names_treat)
+        namess_treat=names_treat;
+        if contains(namess_treat{k},'30mj')&&contains(namess_treat{k},'500ms')
             color=color_30mj_500ms;
-        elseif contains(nazvy_treat{k},'30mj')&&contains(nazvy_treat{k},'1000ms')
+        elseif contains(namess_treat{k},'30mj')&&contains(namess_treat{k},'1000ms')
             color=color_30mj_1000ms;
-        elseif contains(nazvy_treat{k},'300mj')&&contains(nazvy_treat{k},'500ms')
+        elseif contains(namess_treat{k},'300mj')&&contains(namess_treat{k},'500ms')
             color=color_300mj_500ms;
-        elseif contains(nazvy_treat{k},'300mj')&&contains(nazvy_treat{k},'1000ms')
+        elseif contains(namess_treat{k},'300mj')&&contains(namess_treat{k},'1000ms')
             color=color_300mj_1000ms;
-        elseif contains(nazvy_treat{k},'_0mj')
+        elseif contains(namess_treat{k},'_0mj')
             color=color_0mj;
         else
             error('nocolor')
@@ -617,17 +615,17 @@ for s=slozky
     
     
     order=[];
-    nazvy_treat=nazevy_treat;
-    for k=1:length(nazvy_treat)
-        if contains(nazvy_treat{k},'30mj')&&contains(nazvy_treat{k},'500ms')
+    namess_treat=names_treat;
+    for k=1:length(namess_treat)
+        if contains(namess_treat{k},'30mj')&&contains(namess_treat{k},'500ms')
             order=[order,2];
-        elseif contains(nazvy_treat{k},'30mj')&&contains(nazvy_treat{k},'1000ms')
+        elseif contains(namess_treat{k},'30mj')&&contains(namess_treat{k},'1000ms')
             order=[order,3];
-        elseif contains(nazvy_treat{k},'300mj')&&contains(nazvy_treat{k},'500ms')
+        elseif contains(namess_treat{k},'300mj')&&contains(namess_treat{k},'500ms')
             order=[order,4];
-        elseif contains(nazvy_treat{k},'300mj')&&contains(nazvy_treat{k},'1000ms')
+        elseif contains(namess_treat{k},'300mj')&&contains(namess_treat{k},'1000ms')
             order=[order,5];
-        elseif contains(nazvy_treat{k},'_0mj')
+        elseif contains(namess_treat{k},'_0mj')
             order=[order,1];
         else
             error('noname')
@@ -636,7 +634,7 @@ for s=slozky
     
     order(order)=1:5;
     colors_order=colors(order);
-    nazvy_treat_order=nazvy_treat(order);
+    namess_treat_order=namess_treat(order);
     
     
     
@@ -649,7 +647,7 @@ for s=slozky
         g=[g,repmat(k,[1,length(yy{k})])];
     end
     pozice=1:5;
-    names=nazvy_treat_order; 
+    names=namess_treat_order; 
     plotSpread(yy,'xNames', names,'distributionColors',colors_order);
     color=colors_order(end:-1:1);
     h=boxplot(y,g,'positions', pozice, 'labels', names,'colors','k','symbol',''); 
@@ -667,12 +665,12 @@ for s=slozky
     xtickangle(-30)
     ylim([0 C_max2])
     ylabel('Circurarity')
-    print_png_eps_svg(['../vys/casove/' ss '_c_box'])
+    print_png_eps_svg(['../res/casove/' ss '_c_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_c_p_5class.xlsx'],'WriteRowNames',true)
-%     writetable(stat2,['../vys/tables/' ss '_c_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_c_descriptive.xlsx'],'WriteRowNames',true)
+    writetable(stat1,['../res/tables/' ss '_c_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../res/tables/' ss '_c_p_3class.xlsx'])
+    writetable(stat3,['../res/tables/' ss '_c_descriptive.xlsx'],'WriteRowNames',true)
     
     
     figure(12)
@@ -684,7 +682,7 @@ for s=slozky
         g=[g,repmat(k,[1,length(yy{k})])];
     end
     pozice=1:5;
-    names=nazvy_treat_order; 
+    names=namess_treat_order; 
     plotSpread(yy,'xNames', names,'distributionColors',colors_order);
     color=colors_order(end:-1:1);
     h=boxplot(y,g,'positions', pozice, 'labels', names,'colors','k','symbol',''); 
@@ -702,12 +700,12 @@ for s=slozky
     xtickangle(-30)
     ylim([0 V_max2])
     ylabel('Cell speed (\mum/min)')
-    print_png_eps_svg(['../vys/casove/' ss '_v_box'])
+    print_png_eps_svg(['../res/casove/' ss '_v_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_v_p_5class.xlsx'],'WriteRowNames',true)
-%     writetable(stat2,['../vys/tables/' ss '_v_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_v_descriptive.xlsx'],'WriteRowNames',true)
+    writetable(stat1,['../res/tables/' ss '_v_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../res/tables/' ss '_v_p_3class.xlsx'])
+    writetable(stat3,['../res/tables/' ss '_v_descriptive.xlsx'],'WriteRowNames',true)
     
     
     
@@ -720,7 +718,7 @@ for s=slozky
         g=[g,repmat(k,[1,length(yy{k})])];
     end
     pozice=1:5;
-    names=nazvy_treat_order; 
+    names=namess_treat_order; 
     plotSpread(yy,'xNames', names,'distributionColors',colors_order);
     color=colors_order(end:-1:1);
     h=boxplot(y,g,'positions', pozice, 'labels', names,'colors','k','symbol',''); 
@@ -738,12 +736,12 @@ for s=slozky
     xtickangle(-30)
     ylim([0 M_max2])
     ylabel('Cell dry mass (pg)')
-    print_png_eps_svg(['../vys/casove/' ss '_m_box'])
+    print_png_eps_svg(['../res/casove/' ss '_m_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_m_p_5class.xlsx'],'WriteRowNames',true)
-%     writetable(stat2,['../vys/tables/' ss '_m_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_m_descriptive.xlsx'],'WriteRowNames',true)
+    writetable(stat1,['../res/tables/' ss '_m_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../res/tables/' ss '_m_p_3class.xlsx'])
+    writetable(stat3,['../res/tables/' ss '_m_descriptive.xlsx'],'WriteRowNames',true)
     
     figure(15)
     hold on
@@ -754,7 +752,7 @@ for s=slozky
         g=[g,repmat(k,[1,length(yy{k})])];
     end
     pozice=1:5;
-    names=nazvy_treat_order; 
+    names=namess_treat_order; 
     plotSpread(yy,'xNames', names,'distributionColors',colors_order);
     color=colors_order(end:-1:1);
     h=boxplot(y,g,'positions', pozice, 'labels', names,'colors','k','symbol',''); 
@@ -772,12 +770,12 @@ for s=slozky
     xtickangle(-30)
     ylim([0 D_max2])
     ylabel('Density (pg/\mum^2)')
-    print_png_eps_svg(['../vys/casove/' ss '_d_box'])
+    print_png_eps_svg(['../res/casove/' ss '_d_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_d_p_5class.xlsx'],'WriteRowNames',true)
-%     writetable(stat2,['../vys/tables/' ss '_d_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_d_descriptive.xlsx'],'WriteRowNames',true)
+    writetable(stat1,['../res/tables/' ss '_d_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../res/tables/' ss '_d_p_3class.xlsx'])
+    writetable(stat3,['../res/tables/' ss '_d_descriptive.xlsx'],'WriteRowNames',true)
     
     
     figure(16)
@@ -789,7 +787,7 @@ for s=slozky
         g=[g,repmat(k,[1,length(yy{k})])];
     end
     pozice=1:5;
-    names=nazvy_treat_order; 
+    names=namess_treat_order; 
     plotSpread(yy,'xNames', names,'distributionColors',colors_order);
     color=colors_order(end:-1:1);
     h=boxplot(y,g,'positions', pozice, 'labels', names,'colors','k','symbol',''); 
@@ -807,12 +805,12 @@ for s=slozky
     xtickangle(-30)
     ylim([0 cds_max2])
     ylabel('CDS')
-    print_png_eps_svg(['../vys/casove/' ss '_cds_box'])
+    print_png_eps_svg(['../res/casove/' ss '_cds_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_cds_p_5class.xlsx'],'WriteRowNames',true)
-%     writetable(stat2,['../vys/tables/' ss '_cds_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_cds_descriptive.xlsx'],'WriteRowNames',true)
+    writetable(stat1,['../res/tables/' ss '_cds_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../res/tables/' ss '_cds_p_3class.xlsx'])
+    writetable(stat3,['../res/tables/' ss '_cds_descriptive.xlsx'],'WriteRowNames',true)
     
     
     figure(17)
@@ -824,7 +822,7 @@ for s=slozky
         g=[g,repmat(k,[1,length(yy{k})])];
     end
     pozice=1:5;
-    names=nazvy_treat_order; 
+    names=namess_treat_order; 
     plotSpread(yy,'xNames', names,'distributionColors',colors_order);
     color=colors_order(end:-1:1);
     h=boxplot(y,g,'positions', pozice, 'labels', names,'colors','k','symbol',''); 
@@ -842,110 +840,99 @@ for s=slozky
     xtickangle(-30)
     ylim([0 A_max2])
     ylabel('Area (\mum^2)')
-    print_png_eps_svg(['../vys/casove/' ss '_A_box'])
+    print_png_eps_svg(['../res/casove/' ss '_A_box'])
    
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_A_p_5class.xlsx'],'WriteRowNames',true)
-%     writetable(stat2,['../vys/t0ables/' ss '_A_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_A_descriptive.xlsx'],'WriteRowNames',true)
+    writetable(stat1,['../res/tables/' ss '_A_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../res/t0ables/' ss '_A_p_3class.xlsx'])
+    writetable(stat3,['../res/tables/' ss '_A_descriptive.xlsx'],'WriteRowNames',true)
     
     
 
     
-    nazevy_treat=cellfun(@(x) strrep(x,'_','-'),nazevy_treat,'UniformOutput',false);
+    names_treat=cellfun(@(x) strrep(x,'_','-'),names_treat,'UniformOutput',false);
     
     
     figure(1);
-%     title('cirkularita')
-    nazevy_treat_tmp=addslope(nazevy_treat,s_CC);
-    legend(nazevy_treat_tmp,'Location','northoutside')
+%     title('cirkularity')
+    names_treat_tmp=addslope(names_treat,s_CC);
+    legend(names_treat_tmp,'Location','northoutside')
     ylim([0.3 C_max])
     ylabel('Circurarity')
     xlabel('t (h)')
     xticks([0,6,12,18,24]);
     xlim([0,24]);
-    print_png_eps_svg(['../vys/casove/' ss '_c'])
+    print_png_eps_svg(['../res/casove/' ss '_c'])
     figure(2);
 %     title('rychlost')
-    nazevy_treat_tmp=addslope(nazevy_treat,s_VV);
-    legend(nazevy_treat_tmp,'Location','northoutside')
+    names_treat_tmp=addslope(names_treat,s_VV);
+    legend(names_treat_tmp,'Location','northoutside')
     ylim([0 V_max])
     ylabel('Cell speed (\mum/min)')
     xlabel('t (h)')
     xticks([0,6,12,18,24]);
     xlim([0,24]);
-    print_png_eps_svg(['../vys/casove/' ss '_vv'])
+    print_png_eps_svg(['../res/casove/' ss '_vv'])
     figure(3);
-%     title('hmota')
-    nazevy_treat_tmp=addslope(nazevy_treat,s_MM);
-    legend(nazevy_treat_tmp,'Location','northoutside')
+%     title('mass')
+    names_treat_tmp=addslope(names_treat,s_MM);
+    legend(names_treat_tmp,'Location','northoutside')
     ylim([0 M_max])
     ylabel('Cell dry mass (pg)')
     xlabel('t (h)')
     xticks([0,6,12,18,24]);
     xlim([0,24]);
-    print_png_eps_svg(['../vys/casove/' ss '_m'])
+    print_png_eps_svg(['../res/casove/' ss '_m'])
     
     
     figure(4);
 % %     title('pocet')
-    nazevy_treat_tmp=addslope(nazevy_treat,s_PP);
-    legend(nazevy_treat_tmp,'Location','northoutside')
+    names_treat_tmp=addslope(names_treat,s_PP);
+    legend(names_treat_tmp,'Location','northoutside')
     xlabel('t (h)')
     xticks([0,6,12,18,24]);
     xlim([0,24]);
     ylim([0 P_max])
     ylabel('Relative number of cells')
-    print_png_eps_svg(['../vys/casove/' ss '_p'])
+    print_png_eps_svg(['../res/casove/' ss '_p'])
     
     
     
     figure(5);
 %     title('hustota')
-    nazevy_treat_tmp=addslope(nazevy_treat,s_DD);
-    legend(nazevy_treat_tmp,'Location','northoutside')
+    names_treat_tmp=addslope(names_treat,s_DD);
+    legend(names_treat_tmp,'Location','northoutside')
     ylim([0 D_max])
     ylabel('Density (pg/\mum^2)')
     xlabel('t (h)')
     xticks([0,6,12,18,24]);
     xlim([0,24]);
-    print_png_eps_svg(['../vys/casove/' ss '_d'])
+    print_png_eps_svg(['../res/casove/' ss '_d'])
     figure(6);
 %     title('cds')
-    nazevy_treat_tmp=addslope(nazevy_treat,s_cdss);
-    legend(nazevy_treat_tmp,'Location','northoutside')
+    names_treat_tmp=addslope(names_treat,s_cdss);
+    legend(names_treat_tmp,'Location','northoutside')
     ylim([0 cds_max])
     xlabel('t (h)')
     ylabel('CDS')
     xticks([0,6,12,18,24]);
     xlim([0,24]);
-    print_png_eps_svg(['../vys/casove/' ss '_cds'])
+    print_png_eps_svg(['../res/casove/' ss '_cds'])
     figure(7);
-%     title('plocha')
-    nazevy_treat_tmp=addslope(nazevy_treat,s_AA);
-    legend(nazevy_treat_tmp,'Location','northoutside')
+%     title('area')
+    names_treat_tmp=addslope(names_treat,s_AA);
+    legend(names_treat_tmp,'Location','northoutside')
     ylim([0 A_max])
     xlabel('t (h)')
     ylabel('Area (\mum^2)')
     xticks([0,6,12,18,24]);
     xlim([0,24]);
-    print_png_eps_svg(['../vys/casove/' ss '_a'])
+    print_png_eps_svg(['../res/casove/' ss '_a'])
     
     
     close all
 end
 
-
-
-
-% m=mean(data_treat,1);
-% s=std(data_treat,1);
-% plot(x,m,'r')
-% hold on
-% p = fill([x x(end:-1:1)],[m-s,m(end:-1:1)+s(end:-1:1)]','r','EdgeColor','none');
-% alpha(p,.2) 
-% title(['control-blue   ' uu{1} ' - ' num2str(acc) '--real'  num2str(size(data_treat_num,1)) 'p/'  num2str(size(data_kontrol_num,1)) 'k  --estimated' num2str(sum(elabel)) '/' num2str(size(data_kontrol_num,1)+size(data_treat_num,1)-sum(elabel)) '--correct' num2str(sum((elabel==train_lbl)&train_lbl)) '/' num2str(sum((elabel==train_lbl)&(~train_lbl))) ])
-% ylim([0 y_lim])
 
 
 
