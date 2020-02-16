@@ -228,7 +228,7 @@ for s=slozky
     
     C_max=max(cat(1,CC_up{:}));
 %     C_max=1.05;
-    V_max=max(cat(1,VV_up{:}));
+    V_max=0.4;%max(cat(1,VV_up{:}));
 %     V_max=0.6;
     M_max=max(cat(1,MM_up{:}));
 %     M_max=700;
@@ -246,7 +246,7 @@ for s=slozky
 %     C_max2=max(cat(1,CC_up{:}));
     C_max2=1.05;
 %     V_max2=max(cat(1,VV_up{:}));
-    V_max2=0.8;
+    V_max2=1;
 %     M_max2=max(cat(1,MM_up{:}));
     M_max2=1000;
     P_max2=max(cat(1,PP{:}));
@@ -292,7 +292,7 @@ for s=slozky
 %     D_max2=max(cat(1,DD_up{:}));
     D_max2=1.8;
 %     A_max2=max(cat(1,AA_up{:}));
-    A_max2=1800;
+    A_max2=2200;
 %     cds_max=max(cat(1,cdss_up{:}));
     cds_max2=0.06;
     
@@ -322,15 +322,15 @@ for s=slozky
 %     C_max2=max(cat(1,CC_up{:}));
     C_max2=1.05;
 %     V_max2=max(cat(1,VV_up{:}));
-    V_max2=1.4;
+    V_max2=1.8;
 %     M_max2=max(cat(1,MM_up{:}));
-    M_max2=1800;
+    M_max2=2000;
     P_max2=max(cat(1,PP{:}));
 %     P_max2=1000;
 %     D_max2=max(cat(1,DD_up{:}));
     D_max2=2;
 %     A_max2=max(cat(1,AA_up{:}));
-    A_max2=2500;
+    A_max2=3000;
 %     cds_max=max(cat(1,cdss_up{:}));
     cds_max2=0.06;
     
@@ -344,7 +344,7 @@ for s=slozky
 %     V_max=0.6;
     M_max=max(cat(1,MM_up{:}));
 %     M_max=700;
-    P_max=max(cat(1,PP{:}));
+    P_max=2.5;%max(cat(1,PP{:}));
 %     P_max=1000;
     D_max=max(cat(1,DD_up{:}));
 %     D_max=1.5;
@@ -667,9 +667,9 @@ for s=slozky
     print_png_eps_svg(['../vys/casove/' ss '_c_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_c_p_5class.xlsx'])
-    writetable(stat2,['../vys/tables/' ss '_c_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_c_descriptive.xlsx'])
+    writetable(stat1,['../vys/tables/' ss '_c_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../vys/tables/' ss '_c_p_3class.xlsx'])
+    writetable(stat3,['../vys/tables/' ss '_c_descriptive.xlsx'],'WriteRowNames',true)
     
     
     figure(12)
@@ -702,9 +702,9 @@ for s=slozky
     print_png_eps_svg(['../vys/casove/' ss '_v_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_v_p_5class.xlsx'])
-    writetable(stat2,['../vys/tables/' ss '_v_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_v_descriptive.xlsx'])
+    writetable(stat1,['../vys/tables/' ss '_v_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../vys/tables/' ss '_v_p_3class.xlsx'])
+    writetable(stat3,['../vys/tables/' ss '_v_descriptive.xlsx'],'WriteRowNames',true)
     
     
     
@@ -738,9 +738,9 @@ for s=slozky
     print_png_eps_svg(['../vys/casove/' ss '_m_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_m_p_5class.xlsx'])
-    writetable(stat2,['../vys/tables/' ss '_m_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_m_descriptive.xlsx'])
+    writetable(stat1,['../vys/tables/' ss '_m_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../vys/tables/' ss '_m_p_3class.xlsx'])
+    writetable(stat3,['../vys/tables/' ss '_m_descriptive.xlsx'],'WriteRowNames',true)
     
     figure(15)
     hold on
@@ -772,9 +772,9 @@ for s=slozky
     print_png_eps_svg(['../vys/casove/' ss '_d_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_d_p_5class.xlsx'])
-    writetable(stat2,['../vys/tables/' ss '_d_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_d_descriptive.xlsx'])
+    writetable(stat1,['../vys/tables/' ss '_d_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../vys/tables/' ss '_d_p_3class.xlsx'])
+    writetable(stat3,['../vys/tables/' ss '_d_descriptive.xlsx'],'WriteRowNames',true)
     
     
     figure(16)
@@ -807,9 +807,9 @@ for s=slozky
     print_png_eps_svg(['../vys/casove/' ss '_cds_box'])
     
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_cds_p_5class.xlsx'])
-    writetable(stat2,['../vys/tables/' ss '_cds_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_cds_descriptive.xlsx'])
+    writetable(stat1,['../vys/tables/' ss '_cds_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../vys/tables/' ss '_cds_p_3class.xlsx'])
+    writetable(stat3,['../vys/tables/' ss '_cds_descriptive.xlsx'],'WriteRowNames',true)
     
     
     figure(17)
@@ -842,9 +842,9 @@ for s=slozky
     print_png_eps_svg(['../vys/casove/' ss '_A_box'])
    
     [stat1,stat2,stat3] = get_stats_table(yy,names);
-    writetable(stat1,['../vys/tables/' ss '_A_p_5class.xlsx'])
-    writetable(stat2,['../vys/tables/' ss '_A_p_3class.xlsx'])
-    writetable(stat3,['../vys/tables/' ss '_A_descriptive.xlsx'])
+    writetable(stat1,['../vys/tables/' ss '_A_p_5class.xlsx'],'WriteRowNames',true)
+%     writetable(stat2,['../vys/t0ables/' ss '_A_p_3class.xlsx'])
+    writetable(stat3,['../vys/tables/' ss '_A_descriptive.xlsx'],'WriteRowNames',true)
     
     
 
@@ -866,7 +866,7 @@ for s=slozky
 %     title('rychlost')
     nazevy_treat_tmp=addslope(nazevy_treat,s_VV);
     legend(nazevy_treat_tmp,'Location','northoutside')
-    ylim([0 C_max])
+    ylim([0 V_max])
     ylabel('Cell speed (\mum/min)')
     xlabel('t (h)')
     xticks([0,6,12,18,24]);

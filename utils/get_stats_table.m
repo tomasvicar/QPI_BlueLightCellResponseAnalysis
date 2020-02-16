@@ -48,12 +48,12 @@ end
 
 [p,t,stats] = anova1(dataa,names_vec,'off');
 [c,m,h,nms] = multcompare(stats,'Display','off');
-c1=squareform(c(:,5));
+c1=squareform(c(:,6));
 
 
 [p,t,stats] =kruskalwallis(dataa,names_vec,'off');
 [c,m,h,nms] = multcompare(stats,'Display','off');
-c2=squareform(c(:,5));
+c2=squareform(c(:,6));
 
 
 
@@ -77,12 +77,12 @@ names22={names2{1},[names2{2} '__' names2{3}],[names2{4} '+' names2{5}]};
 
 [p,t,stats] = anova1(dataa,names_vec_3class,'off');
 [c,m,h,nms] = multcompare(stats,'Display','off');
-c3=squareform(c(:,5));
+c3=squareform(c(:,6));
 
 
 [p,t,stats] =kruskalwallis(dataa,names_vec_3class,'off');
 [c,m,h,nms] = multcompare(stats,'Display','off');
-c4=squareform(c(:,5));
+c4=squareform(c(:,6));
 
 
 
