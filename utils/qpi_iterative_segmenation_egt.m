@@ -22,10 +22,10 @@ a=imgaussfilt(a,0.2);
 
 
 
-pom = EGT_Segmentation(a);
+tmp = EGT_Segmentation(a);
 
 
-b=(pom.*(a>tresh))|a>tresh2;
+b=(tmp.*(a>tresh))|a>tresh2;
 
 b=~bwareafilt(~b,[hole_min,Inf]);
 
@@ -82,24 +82,24 @@ for k=1:ml
 
             end
         end
-        pom=bwlabel(bw_blob);
-        num_css=max(pom(:));
+        tmp=bwlabel(bw_blob);
+        num_css=max(tmp(:));
         if num_css>1
             break;
         end
     end
     
-    pom=bwlabel(bw_blob);
-    num_blobs=max(pom(:));
+    tmp=bwlabel(bw_blob);
+    num_blobs=max(tmp(:));
     if num_blobs>1
         dists=bwdist(bw_blob);
         basins=watershed(dists);
         cut_lines=basins==0;
         bw=bw&~cut_lines;
     end
-    pom=false(size(res));
-    pom(bb(2):bb(2)+bb(4),bb(1):bb(1)+bb(3))=bw;
-    res(pom)=1;
+    tmp=false(size(res));
+    tmp(bb(2):bb(2)+bb(4),bb(1):bb(1)+bb(3))=bw;
+    res(tmp)=1;
 end
 
 segm=res;
