@@ -82,6 +82,10 @@ end
         
 
         I=imread(name0,k);
+        
+        I=I(50:50+350-1,50:50+350-1);
+        
+        
         [final,egt,aftertresh,fsm]=qpi_iterative_segmenation_egt_ukazka2(I,volume_tresh,tresh,tresh2,max_tresh,hole_min);
         
         imwrite(uint8(fsm*255),'../tmp3/fsm.png')
@@ -95,22 +99,33 @@ end
         
         imshow(I,[-0.1 2])
         hold on;
-        print('../tmp3/orig','-dpng')
+        print('../tmp3/orig','-depsc')
         
         
                 
         imshow(I,[-0.1 2])
         hold on;
-        visboundaries(final,'Color','r','LineWidth',0.1)
-        print('../tmp3/res','-dpng')
+        visboundaries(final,'Color','r','LineWidth',0.4)
+        print('../tmp3/res','-depsc')
         
         
         
         imshow(I,[-0.1 2])
         hold on;
-        visboundaries(fsm,'Color','r','LineWidth',0.1)
-        print('../tmp3/res_fsm','-dpng')
+        visboundaries(fsm,'Color','r','LineWidth',0.4)
+        print('../tmp3/res_fsm','-depsc')
         
+        
+        imshow(I,[-0.1 2])
+        hold on;
+        visboundaries(egt,'Color','r','LineWidth',0.4)
+        print('../tmp3/res_egt','-depsc')
+        
+        
+        imshow(I,[-0.1 2])
+        hold on;
+        visboundaries(aftertresh,'Color','r','LineWidth',0.4)
+        print('../tmp3/res_aftertresh','-depsc')
         
         
         
@@ -126,6 +141,6 @@ end
 %         tiff_stack_uint8_color_jpg(name1,cdata,k)
         fprintf(1,'\b|\n');
 %     end
-    save(name2,'b');
+%     save(name2,'b');
     
 % end

@@ -14,7 +14,7 @@ slozky={'../Data na bakalarku/A2780','../Data na bakalarku/G361','../Data na bak
 % slozky={'../Data na bakalarku/PC-3'};
 
 
-save_dir=('../data');
+save_dir=('../data_compresed_video');
 s_num=0;
 for s=slozky
     line=split(s{1},'/');
@@ -61,29 +61,45 @@ for s=slozky
             
             file=file{1};
             
+            
+%             tiff_name=[save_dir '/' line '/' treat '/QPI_' line '_' treat '_' num2str(num,'%03.f') '.tiff'];
            
             copyfile(file,[save_dir '/' line '/' treat '/QPI_' line '_' treat '_' num2str(num,'%03.f') '.tiff'])
             
-            v = VideoWriter([save_dir '/' line '/' treat '/video_' line '_' treat '_' num2str(num,'%03.f') '.avi'],'Grayscale AVI');
+
+            
+            v = VideoWriter([save_dir '/' line '/' treat '/video_' line '_' treat '_' num2str(num,'%03.f') '.avi'],'Motion JPEG AVI');
+            v.Quality = 95;
+%             v = VideoWriter([save_dir '/' line '/' treat '/video_' line '_' treat '_' num2str(num,'%03.f') '.avi'],'Grayscale AVI');
+%             v = VideoWriter([save_dir '/' line '/' treat '/video_' line '_' treat '_' num2str(num,'%03.f') '.mj2'],'Archival');
+            
+
+            
             
             v.FrameRate=7;
             
             info=imfinfo(file);
    
-            
+%             II=zeros([600,600,length(info)]);
             open(v)
             for k = 1:length(info)
                 
                 I=imread(file,k);
                 
+%                 II(:,:,k)=I;
+                
+                
                 I=mat2gray(I,[-0.1 2]);
                 
                 I=uint8(round(I*255));
+                
+                I=cat(3,I,I,I);
                 
                 writeVideo(v,I)
 
             end
             close(v)
+%             imwrite_single_3D(tiff_name,II);
             
             
             
