@@ -3,7 +3,7 @@ addpath('utils')
 
 data_folder='../data';
 
-listing=subdir([data_folder 'segmentaion*.mat']);
+listing=subdir([data_folder '/*segmentaion*.mat']);
 listing={listing(:).name};
 count=0;
 for s=listing

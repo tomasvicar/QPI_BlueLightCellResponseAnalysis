@@ -3,7 +3,7 @@ addpath('utils')
 
 data_folder='../data';
 
-listing=subdir([data_folder 'segmentaion*.mat']);
+listing=subdir([data_folder '/*segmentaion*.mat']);
 listing={listing(:).name};
 count=0;
 for s=listing
@@ -21,7 +21,7 @@ for s=listing
     
 
     load(name_tra);
-    ll=ll(:,:,1:length(imfinfo(nazev2)));
+    ll=ll(:,:,1:length(imfinfo(name_qpi)));
     size_req=[size(ll,3) max(ll(:))];
     mass=nan(size_req);
     cirkularity=nan(size_req);
@@ -35,9 +35,9 @@ for s=listing
         if k>1
             I_old=I;
         else
-             I_old=imread(nazev2,k);
+             I_old=imread(name_qpi,k);
         end
-        I=imread(nazev2,k);
+        I=imread(name_qpi,k);
         
         
         stats = regionprops(l,I,'WeightedCentroid','Area','Perimeter','MeanIntensity');

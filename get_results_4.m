@@ -3,6 +3,7 @@ addpath('utils')
 addpath('plotSpread')
 
 
+
 data_folder='../data';
 
 folders=dir(data_folder);
@@ -10,6 +11,7 @@ folders={folders(3:end).name};
 
 
 mkdir('../res/tables');
+mkdir('../res/casove');
 
 s_num=0;
 for s=folders
@@ -19,7 +21,7 @@ for s=folders
 %        continue 
 %     end
     
-    listing=dir(s{1});
+    listing=dir([data_folder filesep s{1}]);
     
     folders2={listing(3:end).name};
     
@@ -73,7 +75,7 @@ for s=folders
     
     for ss=folders2
         
-        listing=subdir([s{1} '/' ss{1} '/*features*.mat']);
+        listing=subdir([data_folder filesep  s{1} '/' ss{1} '/*features*.mat']);
         
         listing={listing(:).name};
         
@@ -416,7 +418,7 @@ for s=folders
             color=color_300mj_500ms;
         elseif contains(namess_treat{k},'300mj')&&contains(namess_treat{k},'1000ms')
             color=color_300mj_1000ms;
-        elseif contains(namess_treat{k},'_0mj')
+        elseif strcmp(namess_treat{k},'0mj')
             color=color_0mj;
         else
             error('nocolor')
@@ -625,7 +627,7 @@ for s=folders
             order=[order,4];
         elseif contains(namess_treat{k},'300mj')&&contains(namess_treat{k},'1000ms')
             order=[order,5];
-        elseif contains(namess_treat{k},'_0mj')
+        elseif strcmp(namess_treat{k},'0mj')
             order=[order,1];
         else
             error('noname')

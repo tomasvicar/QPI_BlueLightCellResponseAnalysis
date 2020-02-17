@@ -1,14 +1,14 @@
 clc;clear all;close all;
 addpath('utils')
 
-data_folder='../data';
+data_folder='../data_send';
 
-folder=[data_folder filesep 'A2780'];
-volume_tresh=100;
-tresh=0.07;
-max_tresh=2;
-tresh2=0.4;
-hole_min=100;
+% folder=[data_folder filesep 'A2780'];
+% volume_tresh=100;
+% tresh=0.07;
+% max_tresh=2;
+% tresh2=0.4;
+% hole_min=100;
 
 
 
@@ -29,12 +29,12 @@ hole_min=100;
 % hole_min=200;
 
 
-% folder=[data_folder filesep 'PNT1A'];
-% volume_tresh=100;
-% tresh=0.07;
-% max_tresh=2;
-% tresh2=0.4;
-% hole_min=200;
+folder=[data_folder filesep 'PNT1A'];
+volume_tresh=100;
+tresh=0.07;
+max_tresh=2;
+tresh2=0.4;
+hole_min=200;
 
 
 listing={};
@@ -48,9 +48,11 @@ end
 
 
 
-for s=listing
+% for s=listing
+
+s=listing{1};
     
-    name0=s{1};
+    name0=s;
     name0
     name1=name0;
     name2=name0;
@@ -59,14 +61,28 @@ for s=listing
     name2=strrep(name2,'.tiff','.mat');
     name2=strrep(name2,'QPI','segmentaion');
     
-    info=imfinfo(s{1});
+    
+    
+    [filepath,name,ext] = fileparts(name0);
+    filepath=strrep(filepath,'data_send','na_segmentacni_obrazek');
+    
+    mkdir(filepath)
+    
+    
+    name=strrep(name0,'.tiff','.png');
+    name=strrep(name0,'data_send','na_segmentacni_obrazek');
+
+
+    
+    info=imfinfo(s);
     clear b
     fprintf(1,'%s\n\n',repmat('.',1,length(info)));
-    parfor k=1:length(info)
+%     parfor k=1:length(info)
+    k=100;
         
 
         I=imread(name0,k);
-        b(:,:,k)=qpi_iterative_segmenation_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min);
+        b=qpi_iterative_segmenation_egt_ukazka(I,volume_tresh,tresh,tresh2,max_tresh,hole_min,name);
 
 %         imshow(I,[-0.1 2])
 %         hold on;
@@ -77,7 +93,7 @@ for s=listing
 %         cdata = print('-RGBImage');         
 %         tiff_stack_uint8_color_jpg(name1,cdata,k)
         fprintf(1,'\b|\n');
-    end
+%     end
     save(name2,'b');
     
-end
+% end
