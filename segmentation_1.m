@@ -4,37 +4,37 @@ addpath('utils')
 data_folder='../data';
 
 folder=[data_folder filesep 'A2780'];
-volume_tresh=100;
-tresh=0.07;
-max_tresh=2;
-tresh2=0.4;
-hole_min=100;
+mass_threshold=100;
+foreground_threshold_2=0.07;
+max_LIT_threshold=2;
+foreground_threshold_1=0.4;
+hole_area_threshold=100;
 
 
 
 % folder=[data_folder filesep 'G361'];
-% volume_tresh=150;
-% tresh=0.07;
-% max_tresh=2;
-% tresh2=0.4;
-% hole_min=100;
+% mass_threshold=150;
+% foreground_threshold_2=0.07;
+% max_LIT_threshold=2;
+% foreground_threshold_1=0.4;
+% hole_area_threshold=100;
 
 
 
 % folder=[data_folder filesep 'PC-3'];
-% volume_tresh=150;
-% tresh=0.07;
-% max_tresh=2;
-% tresh2=0.4;
-% hole_min=200;
+% mass_threshold=150;
+% foreground_threshold_2=0.07;
+% max_LIT_threshold=2;
+% foreground_threshold_1=0.4;
+% hole_area_threshold=200;
 
 
 % folder=[data_folder filesep 'PNT1A'];
-% volume_tresh=100;
-% tresh=0.07;
-% max_tresh=2;
-% tresh2=0.4;
-% hole_min=200;
+% mass_threshold=100;
+% foreground_threshold_2=0.07;
+% max_LIT_threshold=2;
+% foreground_threshold_1=0.4;
+% hole_area_threshold=200;
 
 
 listing={};
@@ -66,7 +66,7 @@ for s=listing
         
 
         I=imread(name0,k);
-        b(:,:,k)=qpi_iterative_segmenation_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min);
+        b(:,:,k)=qpi_iterative_segmenation_egt(I,mass_threshold,foreground_threshold_2,foreground_threshold_1,max_LIT_threshold,hole_area_threshold);
 
 %         imshow(I,[-0.1 2])
 %         hold on;

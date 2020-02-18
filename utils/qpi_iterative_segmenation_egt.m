@@ -1,13 +1,13 @@
-function [segm]=qpi_iterative_segmenation_egt(I,volume_tresh,tresh,tresh2,max_tresh,hole_min)
+function [segm]=qpi_iterative_segmenation_egt(I,mass_threshold,foreground_threshold_2,foreground_threshold_1,max_LIT_threshold,hole_area_threshold)
 %based on Loewke - automted cell segmentation for quntitative phase
 %microscopy  and combined with EGT segmentation
 
 
-% tresh - foreground treshhold (aditional to EGT)
-% tresh2 -  foreground treshhold (aditional to EGT)
-%BW = (egt and I>tresh)|I>tresh2
-%max_tresh - dividing lines above this treshold will not be created
-%hole_min - smaler holes will be removed
+% foreground_threshold_2 - foreground treshhold (aditional to EGT)
+% foreground_threshold_1 -  foreground treshhold (aditional to EGT)
+%BW = (egt and I>foreground_threshold_2)|I>foreground_threshold_1
+%max_LIT_threshold - dividing lines above this treshold will not be created
+%hole_area_threshold - smaler holes will be removed
 
 
 
@@ -25,11 +25,11 @@ a=imgaussfilt(a,0.2);
 tmp = EGT_Segmentation(a);
 
 
-b=(tmp.*(a>tresh))|a>tresh2;
+b=(tmp.*(a>foreground_threshold_2))|a>foreground_threshold_1;
 
-b=~bwareafilt(~b,[hole_min,Inf]);
+b=~bwareafilt(~b,[hole_area_threshold,Inf]);
 
-b=mass_filt(b,a,volume_tresh);
+b=mass_filt(b,a,mass_threshold);
 
 
 % a=imerode(a,strel('sphere',1));
@@ -66,7 +66,7 @@ for k=1:ml
     grey_blob=grey_blob(bb(2):bb(2)+bb(4),bb(1):bb(1)+bb(3));
     
     bw=grey_blob>0;
-    for t=tresh:0.05:max_tresh
+    for t=foreground_threshold_2:0.05:max_LIT_threshold
         bw_blob=grey_blob>t;
         
 
@@ -77,7 +77,7 @@ for k=1:ml
             cc=ll==kk;
             
             volume=sum(sum(grey_blob.*cc));
-            if volume<volume_tresh
+            if volume<mass_threshold
                 bw_blob(cc)=0;
 
             end
